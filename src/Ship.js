@@ -4,7 +4,7 @@ export default class extends BABYLON.Mesh {
     constructor(name, scene,controller) {
         super(name, scene);
 
-        BABYLON.SceneLoader.ImportMesh("ship", "/assets/", "Ship.babylon", scene, (newMeshes, particleSystems) => {
+        BABYLON.SceneLoader.ImportMesh("ship", "assets/", "Ship.babylon", scene, (newMeshes, particleSystems) => {
             for(let mesh of newMeshes) {
                 mesh.position.addInPlace(this.position);
                 mesh.setParent(this);
@@ -17,7 +17,7 @@ export default class extends BABYLON.Mesh {
         this.lookAtPosition.position.set(0,10,0);
         
         this.engineParticles = new BABYLON.ParticleSystem(name + "_Particles", 2000, scene);
-        this.engineParticles.particleTexture = new BABYLON.Texture("/assets/smoke.png", scene);
+        this.engineParticles.particleTexture = new BABYLON.Texture("assets/smoke.png", scene);
         this.engineParticles.emitter = this;
         this.engineParticles.minEmitBox = new BABYLON.Vector3(-1, -0.5, -3);
         this.engineParticles.maxEmitBox = new BABYLON.Vector3(1, 0.5, -3);
@@ -35,7 +35,7 @@ export default class extends BABYLON.Mesh {
         this.engineParticles.maxAngularSpeed = Math.PI;
 
         this.weaponParticles = new BABYLON.ParticleSystem(name + "_Particles", 1000, scene);
-        this.weaponParticles.particleTexture = new BABYLON.Texture("/assets/smoke.png", scene);
+        this.weaponParticles.particleTexture = new BABYLON.Texture("assets/smoke.png", scene);
         this.weaponParticles.emitter = this;
         this.weaponParticles.minEmitBox = new BABYLON.Vector3(0, 0, 3);
         this.weaponParticles.maxEmitBox = new BABYLON.Vector3(0, 0, 3);

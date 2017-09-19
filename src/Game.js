@@ -26,7 +26,7 @@ class Game {
         var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", this.scene);
         skyboxMaterial.backFaceCulling = false;
         skyboxMaterial.disableLighting = true;
-        skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("/assets/skybox/space", this.scene);
+        skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("assets/skybox/space", this.scene);
         skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
         this.skybox.material = skyboxMaterial;
         this.skybox.infiniteDistance = true;
@@ -47,7 +47,7 @@ class Game {
 
         this.rocks = [];
 
-        BABYLON.SceneLoader.ImportMesh("Rock", "/assets/", "rock.babylon", this.scene, (newMeshes, particleSystems) => {
+        BABYLON.SceneLoader.ImportMesh("Rock", "assets/", "rock.babylon", this.scene, (newMeshes, particleSystems) => {
             this.rockMesh = newMeshes[0];
             this.rockMesh.isVisible = false;
 
@@ -58,7 +58,7 @@ class Game {
         });
                 
         this.explosionParticles = new BABYLON.ParticleSystem("Explosion_Particles", 20000, this.scene);
-        this.explosionParticles.particleTexture = new BABYLON.Texture("/assets/smoke.png", this.scene);
+        this.explosionParticles.particleTexture = new BABYLON.Texture("assets/smoke.png", this.scene);
         this.explosionParticles.emitter = new BABYLON.Vector3.Zero();
         this.explosionParticles.minEmitBox = new BABYLON.Vector3(-2, -2, -2);
         this.explosionParticles.maxEmitBox = new BABYLON.Vector3(2, 2, 2);
