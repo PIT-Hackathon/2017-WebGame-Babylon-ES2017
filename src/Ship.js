@@ -4,7 +4,7 @@ export default class extends BABYLON.Mesh {
     constructor(name, scene,controller) {
         super(name, scene);
 
-        BABYLON.SceneLoader.ImportMesh("ship", "assets/", "Ship.babylon", scene, (newMeshes, particleSystems) => {
+        BABYLON.SceneLoader.ImportMesh("ship", "assets/", "ship.babylon", scene, (newMeshes, particleSystems) => {
             for(let mesh of newMeshes) {
                 mesh.position.addInPlace(this.position);
                 mesh.setParent(this);
