@@ -1,5 +1,5 @@
-# PIT-Hackathon 2017 WebGame Babylon.js ES2017 Template
- Die ist das Babylon.js Web Game Template.
+# PIT-Hackathon 2017 Web Game Babylon.js ES2017 Template
+Dies is eines der Web Game Templates für den Hackathon 2017. Dieses Template verwendet Babylon.js, Webpack und wurde in Javascript geschrieben.
 
  Ihr könnt das "Spiel" auch online ausprobieren.[https://pit-hackathon.github.io/2017-WebGame-Babylon-ES2017/](https://pit-hackathon.github.io/2017-WebGame-Babylon-ES2017/)
 
