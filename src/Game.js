@@ -18,7 +18,7 @@ class Game {
     createScene() {
         this.scene = new BABYLON.Scene(this.engine);
         this.scene.clearColor = new BABYLON.Color3(0, 0, 0);
-        
+
         this.controller = new Controller();
         this.ship = new Ship("Ship", this.scene, this.controller);
 
@@ -30,7 +30,7 @@ class Game {
         skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
         this.skybox.material = skyboxMaterial;
         this.skybox.infiniteDistance = true;
-                
+
         this.camera = new BABYLON.FollowCamera("Camera1", new BABYLON.Vector3(0, 100, 0), this.scene, this.ship.lookAtPosition);
         this.camera.radius = 40;
         this.camera.heightOffset = 4;
@@ -42,7 +42,7 @@ class Game {
         light1.intensity = 1;
 
         let light2 = new BABYLON.HemisphericLight("Light2", new BABYLON.Vector3(0, -1, 0), this.scene);
-        light2.diffuse = new BABYLON.Color3(0.5,0.5,1);
+        light2.diffuse = new BABYLON.Color3(0.5, 0.5, 1);
         light2.intensity = 0.2;
 
         this.rocks = [];
@@ -56,7 +56,7 @@ class Game {
                 this.createRock(this.ship.position);
             }
         });
-                
+
         this.explosionParticles = new BABYLON.ParticleSystem("Explosion_Particles", 20000, this.scene);
         this.explosionParticles.particleTexture = new BABYLON.Texture("assets/smoke.png", this.scene);
         this.explosionParticles.emitter = new BABYLON.Vector3.Zero();
@@ -78,14 +78,14 @@ class Game {
         this.explosionParticles.preventAutoStart = true;
     }
 
-    createRock(origin) {  
-        this.totalRocks++;     
-        let rock = new Rock(`Rock_${this.totalRocks}`,this.scene, this.rockMesh.createInstance(`Rock_${this.totalRocks}`));
-        
-        var rockPosition = new BABYLON.Vector3(Math.random() - .5,0,Math.random() - .5).normalize(); // Direction
+    createRock(origin) {
+        this.totalRocks++;
+        let rock = new Rock(`Rock_${this.totalRocks}`, this.scene, this.rockMesh.createInstance(`Rock_${this.totalRocks}`));
+
+        var rockPosition = new BABYLON.Vector3(Math.random() - .5, 0, Math.random() - .5).normalize(); // Direction
         rockPosition.scaleInPlace(Math.random() * 300 + 100); // Distance 100 - 400
         rockPosition.addInPlace(origin);
-        
+
         rock.position.copyFrom(rockPosition);
         this.rocks.push(rock);
     }
@@ -93,15 +93,20 @@ class Game {
     render() {
         let destroyedRocks = [];
 
+        let bullets = this.ship.getBullets();
+
         for (let index = 0; index < this.rocks.length; index++) {
             let rock = this.rocks[index];
-                    
-            if(this.ship.intersectsMesh(rock, true)) {
-                this.explosionParticles.emitter.copyFrom(rock.getAbsolutePosition());         
-                this.explosionParticles.manualEmitCount = 4000;       
-                this.explosionParticles.start();
-                
-                destroyedRocks.push(index);
+            for (let bullet of bullets) {
+                if (rock.intersectsPoint(bullet.position)) {
+                    this.explosionParticles.emitter.copyFrom(rock.getAbsolutePosition());
+                    this.explosionParticles.manualEmitCount = 4000;
+                    this.explosionParticles.start();
+
+                    destroyedRocks.push(index);
+                    this.ship.destroyBullet(bullet);
+                    break; // Continue with next rock
+                }
             }
         }
 
@@ -109,11 +114,11 @@ class Game {
             this.createRock(this.ship.position);
         }
 
-        while(destroyedRocks.length > 0) {
+        while (destroyedRocks.length > 0) {
             let index = destroyedRocks.pop(); // Remove rocks in reverse order
             let rock = this.rocks[index];
             rock.dispose();
-            this.rocks.splice(index,1);
+            this.rocks.splice(index, 1);
         }
 
         this.scene.render();

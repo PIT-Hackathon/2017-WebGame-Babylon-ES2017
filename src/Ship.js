@@ -73,11 +73,11 @@ export default class extends BABYLON.Mesh {
         }
 
         if (this.controller.isLeftPressed) {
-            this.rotate(BABYLON.Vector3.Up(),-.05, BABYLON.Space.LOCAL);
+            this.rotate(BABYLON.Vector3.Up(),-.03, BABYLON.Space.LOCAL);
         }
 
         if (this.controller.isRightPressed) {
-            this.rotate(BABYLON.Vector3.Up(),.05, BABYLON.Space.LOCAL);
+            this.rotate(BABYLON.Vector3.Up(),.03, BABYLON.Space.LOCAL);
         }
 
         if(this.controller.isWeaponPressed) {
@@ -88,5 +88,13 @@ export default class extends BABYLON.Mesh {
         }
 
         this.lookAtPosition.rotationQuaternion = this.rotationQuaternion;
+    }
+    
+    getBullets() {
+        return this.weaponParticles.particles;
+    }
+
+    destroyBullet(bullet) {
+        this.weaponParticles.recycleParticle(bullet);
     }
 }
